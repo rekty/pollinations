@@ -61,6 +61,24 @@ const TEXT_BASE_SERVICES = {
         tools: true,
         contextLength: 400000,
         isSpecialized: false,
+        // GPT-5.4 Nano accepts standard sampling controls through the gateway
+        // (it is not in the reasoning-only family that forces temperature=1).
+        supportedParameters: [
+            "seed",
+            "system",
+            "json",
+            "temperature",
+            "top_p",
+            "presence_penalty",
+            "frequency_penalty",
+            "max_tokens",
+            "stream",
+        ],
+        defaultParameters: {
+            seed: 0,
+            json: false,
+            stream: false,
+        },
     },
     "openai-fast": {
         aliases: ["gpt-5-nano", "gpt-5-nano-2025-08-07", "openai/gpt-5-nano"],
@@ -154,6 +172,24 @@ const TEXT_BASE_SERVICES = {
         reasoning: true,
         contextLength: 1050000,
         isSpecialized: false,
+        // Reasoning/GPT-5 family: the gateway forces temperature=1 and strips
+        // top_p / frequency_penalty / presence_penalty, so those controls are
+        // deliberately NOT listed as supported.
+        supportedParameters: [
+            "seed",
+            "system",
+            "json",
+            "temperature",
+            "max_tokens",
+            "reasoning_effort",
+            "stream",
+        ],
+        defaultParameters: {
+            seed: 0,
+            json: false,
+            stream: false,
+            temperature: 1,
+        },
     },
     "gpt-5.4-mini": {
         aliases: ["gpt-5-mini", "openai-mini", "openai/gpt-5.4-mini"],
@@ -690,6 +726,23 @@ const TEXT_BASE_SERVICES = {
         search: true,
         contextLength: 1048576,
         isSpecialized: false,
+        // Gemini routes through OpenRouter and accepts standard sampling
+        // controls (temperature/top_p/max_tokens); web search is enabled via
+        // the `search` tool rather than a standalone parameter.
+        supportedParameters: [
+            "seed",
+            "system",
+            "json",
+            "temperature",
+            "top_p",
+            "max_tokens",
+            "stream",
+        ],
+        defaultParameters: {
+            seed: 0,
+            json: false,
+            stream: false,
+        },
     },
     "google/gemini-3.8-flash": {
         aliases: [],

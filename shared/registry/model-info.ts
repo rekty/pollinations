@@ -117,6 +117,15 @@ export const ModelInfoSchema = z.object({
     alpha: z.boolean().optional(),
     flat_rate: z.boolean().optional(),
     added_date: z.number().optional(),
+    supported_parameters: z.array(z.string()).optional().describe(
+        "Generation controls the gateway actually applies for this model (e.g. `temperature`, `max_tokens`, `seed`, `json`). Controls that are silently ignored for this model are not listed; see `default_parameters` for effective defaults.",
+    ),
+    default_parameters: z
+        .record(z.string(), z.unknown())
+        .optional()
+        .describe(
+            "Effective defaults for the supported generation controls, e.g. `{ seed: 0 }`.",
+        ),
 });
 
 export type ModelInfo = z.infer<typeof ModelInfoSchema>;
@@ -229,6 +238,12 @@ export function modelInfoFromDefinition(
                 ? service.cost.promptTextTokens === undefined
                 : undefined),
         added_date: service.addedDate,
+        supported_parameters: service.supportedParameters
+            ? [...service.supportedParameters]
+            : undefined,
+        default_parameters: service.defaultParameters
+            ? { ...service.defaultParameters }
+            : undefined,
     };
 }
 

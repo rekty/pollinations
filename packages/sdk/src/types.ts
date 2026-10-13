@@ -920,6 +920,10 @@ export interface ModelInfo {
     is_specialized?: boolean;
     paid_only?: boolean;
     pricing?: Record<string, string> & { currency: "pollen" };
+    /** Generation controls the gateway actually applies for this model (e.g. `temperature`, `max_tokens`, `seed`, `json`). */
+    supported_parameters?: string[];
+    /** Effective defaults for the supported generation controls, e.g. `{ seed: 0 }`. */
+    default_parameters?: Record<string, unknown>;
 }
 
 // ============================================================================

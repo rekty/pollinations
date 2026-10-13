@@ -1439,7 +1439,7 @@ curl "https://gen.pollinations.ai/video/models?community=0" \
 
 #### `GET` `/text/models` — List Text Models (Detailed)
 
-Returns all available text generation and community text models with pricing, capabilities, and metadata including context window size, supported modalities, and tool support. When authenticated: the owner's private community models are included, models are filtered by API key permissions, and `paid_only` models are hidden if the account has no paid balance. Pass `?community=false` to exclude community models or `?community=true` to return only community models.
+Returns all available text generation and community text models with pricing, capabilities, and metadata including context window size, supported modalities, and tool support. Models that declare them also expose `supported_parameters` (the generation controls the gateway actually applies, e.g. `temperature`, `max_tokens`, `seed`, `json`) and `default_parameters` (their effective defaults) so apps can show relevant settings instead of guessing. Controls that are silently ignored for a model (e.g. sampling controls stripped for reasoning models) are not listed. When authenticated: the owner's private community models are included, models are filtered by API key permissions, and `paid_only` models are hidden if the account has no paid balance. Pass `?community=false` to exclude community models or `?community=true` to return only community models.
 
 ⚙️ **Parameters**
 

@@ -226,6 +226,20 @@ export type ModelDefinition = {
     maxReferenceVideos?: number; // Models with video input: effective accepted reference videos
     /** Internal provider-route output-token cap used for fallback compatibility. */
     maxCompletionTokens?: number;
+    /**
+     * Generation controls the gateway actually applies for this model, as
+     * parameter names (e.g. `temperature`, `max_tokens`, `seed`, `json`).
+     * Describes what works through Pollinations — not just what an upstream
+     * provider advertises. Controls that are silently ignored for this model
+     * must NOT be listed. Omit for models without parameter support metadata.
+     */
+    supportedParameters?: string[];
+    /**
+     * Effective defaults for the supported controls above (e.g. `{ seed: 0 }`).
+     * Only list defaults that are real gateway behavior; inventing unknown
+     * defaults is worse than omitting them.
+     */
+    defaultParameters?: Record<string, unknown>;
 };
 
 // Helper: Convert usage counts to rated USD-equivalent cost or Pollen charge.
