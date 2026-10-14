@@ -760,9 +760,21 @@ export class Pollinations {
                 const contentType =
                     response.headers.get("content-type") || "video/mp4";
 
-                const storedUrl = response.headers
-                    .get("link")
-                    ?.match(/<([^>]+)>;\s*rel="enclosure"/)?.[1];
+                const storedUrl = Array.from(
+                    (response.headers.get("link") || "").matchAll(
+                        /<([^>]+)>((?:[^",<>]|"(?:\\.|[^"\\])*")*)/g,
+                    ),
+                ).find((link) =>
+                    Array.from(
+                        link[2].matchAll(
+                            /;\s*([!#$%&'*+.^_`|~0-9A-Za-z-]+)\s*=\s*(?:"((?:\\.|[^"\\])*)"|([^;\s,]+))/g,
+                        ),
+                    ).some(
+                        (param) =>
+                            param[1].toLowerCase() === "rel" &&
+                            (param[2] ?? param[3]).split(/\s+/).includes("enclosure"),
+                    ),
+                )?.[1];
 
                 return { buffer, contentType, url: storedUrl };
             },

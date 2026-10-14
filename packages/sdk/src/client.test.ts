@@ -671,7 +671,7 @@ describe("Pollinations video reference media", () => {
                 new Response(new Uint8Array([0, 1]), {
                     headers: {
                         "Content-Type": "video/mp4",
-                        Link: `<${storedUrl}>; rel="enclosure"`,
+                        Link: `<https://example.com/other>; title="a, b; rel=enclosure"; rel="alternate", <${storedUrl}>; ${parameters}`,
                     },
                 }),
             )
