@@ -139,6 +139,18 @@ async function parseEditInput(c: Context): Promise<{
                 message: "Invalid multipart form data",
             });
         }
+        const rawSeed = formData.get("seed");
+        if (
+            rawSeed !== null &&
+            (typeof rawSeed !== "string" ||
+                !Number.isInteger(Number(rawSeed)) ||
+                Number(rawSeed) < -1 ||
+                Number(rawSeed) > 2147483647)
+        ) {
+            throw new UpstreamError(400, {
+                message: "Seed must be an integer between -1 and 2147483647",
+            });
+        }
         const prompt = formData.get("prompt") as string;
         if (!prompt)
             throw new UpstreamError(400, {
